@@ -1,8 +1,11 @@
+import 'dart:async';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
+import '../constant/audio_wave.dart';
 import '../constant/color_constant.dart';
+import 'audio/playingControls.dart';
 
 class SubCategoryPage extends StatefulWidget {
   final String? image;
@@ -19,9 +22,25 @@ class SubCategoryPage extends StatefulWidget {
 }
 
 class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderStateMixin {
+
+
+  late AssetsAudioPlayer _assetsAudioPlayer;
+  final List<StreamSubscription> _subscriptions = [];
+  final audios = <Audio>[
+
+    Audio(
+      'assets/Bewafa Tera Muskurana - Jubin Nautiyal 128 Kbps.mp3',
+    ),
+    Audio(
+      'assets/Desh Mere - Bhuj The Pride Of India 128 Kbps.mp3',
+    ),
+    Audio(
+      'assets/Ishq Mein - Sachet Tandon 128 Kbps.mp3',
+
+    ),
+  ];
+
   late AnimationController _animationController;
-  bool _isPlaying = false;
-  bool _isFinished = false;
 
   @override
   void initState() {
@@ -29,37 +48,40 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
     _animationController = AnimationController(vsync: this);
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        setState(() {
-          _isFinished = true;
-          _isPlaying = false;
-        });
+        setState(() {});
       }
     });
+    _assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
+    _subscriptions.add(_assetsAudioPlayer.playlistAudioFinished.listen((data) {
+      print('playlistAudioFinished : $data');
+    }));
+    _subscriptions.add(_assetsAudioPlayer.audioSessionId.listen((sessionId) {
+      print('audioSessionId : $sessionId');
+    }));
+
+    openPlayer();
+  }
+
+  void openPlayer() async {
+    await _assetsAudioPlayer.open(
+      Playlist(audios: audios, startIndex: 0),
+      showNotification: true,
+      autoStart: true,
+    );
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _assetsAudioPlayer.dispose();
+    print('dispose');
     super.dispose();
   }
 
-  void _togglePlayPause() {
-    if (_isFinished) {
-      // if animation has finished, reset it
-      _animationController.reset();
-      setState(() {
-        _isFinished = false;
-      });
-    }
-    setState(() {
-      _isPlaying = !_isPlaying;
-      if (_isPlaying) {
-        _animationController.forward();
-      } else {
-        _animationController.stop();
-      }
-    });
+  Audio find(List<Audio> source, String fromPath) {
+    return source.firstWhere((element) => element.path == fromPath);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,38 +120,65 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height:250.h),
-                  Lottie.asset(
-                    'assets/wave.json',
-                    controller: _animationController,
-                    onLoaded: (composition) {
-                      _animationController
-                        ..duration = composition.duration
-                        ..forward().whenComplete(() {});
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 30.w,left: 30.w,),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Icon(
-                          Icons.shuffle,
-                          color: kWhiteColor,
-                          size: 25.h,
-                        ),
-                        IconButton(
-                          icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow,color: kWhiteColor,size: 25.sp),
-                          onPressed: _togglePlayPause,
-                        ),
-                        Icon(
-                          Icons.wifi_tethering,
-                          color: kWhiteColor,
-                          size: 25.h,
-                        ),
-                      ],
-                    ),
-                  ),
+                  _assetsAudioPlayer.builderCurrent(
+                      builder: (context, Playing? playing) {
+                        return Column(
+                          children: <Widget>[
+                            _assetsAudioPlayer.builderLoopMode(
+                              builder: (context, loopMode) {
+                                return PlayerBuilder.isPlaying(
+                                    player: _assetsAudioPlayer,
+                                    builder: (context, isPlaying) {
+                                      return PlayingControls(
+                                        loopMode: loopMode,
+                                        isPlaying: isPlaying,
+                                        isPlaylist: true,
+                                        onStop: () {
+                                          _assetsAudioPlayer.stop();
+                                        },
+                                        toggleLoop: () {
+                                          _assetsAudioPlayer.toggleLoop();
+                                        },
+                                        onPlay: () {
+                                          _assetsAudioPlayer.playOrPause();
+                                        },
+                                        onNext: () {
+                                          //_assetsAudioPlayer.forward(Duration(seconds: 10));
+                                          _assetsAudioPlayer.next(
+                                              keepLoopMode:
+                                              true /*keepLoopMode: false*/);
+                                        },
+                                        onPrevious: () {
+                                          _assetsAudioPlayer.previous(
+                                            /*keepLoopMode: false*/);
+                                        },
+                                      );
+                                    });
+                              },
+                            ),
+                            _assetsAudioPlayer.builderRealtimePlayingInfos(
+                                builder: (context, RealtimePlayingInfos? infos) {
+                                  if (infos == null) {
+                                    return SizedBox();
+                                  }
+                                  return Column(
+                                    children: [
+                                      Audio_Wave_Page(),
+                                      // PositionSeekWidget(
+                                      //   currentPosition: infos.currentPosition,
+                                      //   duration: infos.duration,
+                                      //   seekTo: (to) {
+                                      //     _assetsAudioPlayer.seek(to);
+                                      //   },
+                                      // ),
+
+                                    ],
+                                  );
+                                }),
+
+                          ],
+                        );
+                      }),
                 ]),
               ),
             ),

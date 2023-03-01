@@ -108,7 +108,7 @@ class _Audio_Wave_PageState extends State<Audio_Wave_Page> {
               heightFactor: 0.40, color: Colors.white),
 
 
-        ],
+        ],  
       ),
     );
   }

@@ -26,11 +26,8 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-<<<<<<< HEAD
+
     compileSdkVersion 33
-=======
-    compileSdkVersion flutter.compileSdkVersion
->>>>>>> origin/master
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -51,11 +48,7 @@ android {
         applicationId "com.example.music_app_flutter_ui"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-<<<<<<< HEAD
-        minSdkVersion 21
-=======
-        minSdkVersion flutter.minSdkVersion
->>>>>>> origin/master
+        minSdkVersion 22
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
