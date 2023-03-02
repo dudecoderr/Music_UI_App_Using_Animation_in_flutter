@@ -44,9 +44,6 @@ class PlayingControls extends StatelessWidget {
           width: 12,
         ),
         NeumorphicButton(
-          style: NeumorphicStyle(
-            boxShape: NeumorphicBoxShape.circle(),
-          ),
           padding: EdgeInsets.all(24),
           onPressed: onPlay,
           child: Icon(

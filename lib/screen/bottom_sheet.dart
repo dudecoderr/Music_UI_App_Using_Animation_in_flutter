@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_audio_waveforms/flutter_audio_waveforms.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app_flutter_ui/constant/color_constant.dart';
@@ -106,6 +107,8 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
             bloodyTear,
             style: TextStyle(color: kWhiteColor, fontFamily: 'Quicksand', fontWeight: FontWeight.w700, fontSize: 25.sp),
           ),
+
+
           Padding(
             padding:  EdgeInsets.only(right: 20.w, left: 20.w),
             child: Lottie.asset(
@@ -118,6 +121,7 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
               },
             ),
           ),
+          ///double song vage che ee atyre nay jovu
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceAround ,children: [
             Icon(Icons.shuffle,color: kWhiteColor,size: 25.h,),
