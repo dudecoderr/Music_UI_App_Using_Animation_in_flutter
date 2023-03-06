@@ -3,23 +3,43 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
-import '../constant/audio_wave.dart';
 import '../constant/color_constant.dart';
+import 'audio/parent_seek.dart';
 import 'audio/playingControls.dart';
 
+
+class SongListModel {
+  SongListModel({
+    required this.id,
+    required this.image,
+    required this.artist,
+    required this.title,
+    required this.url,
+  });
+
+  final String id;
+  final String image;
+  final String artist;
+  final String title;
+  final String url;
+}
+
+  AssetsAudioPlayer  assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
 class SubCategoryPage extends StatefulWidget {
   final String? image;
   final String? desc;
   final String? title;
   final String? photo;
-
+  final String  url;
+///???  double play
   SubCategoryPage({
     Key? key,
     this.image,
     this.desc,
     this.title,
-    this.photo,
+    this.photo,required this.url,
   }) : super(key: key);
 
   @override
@@ -27,55 +47,31 @@ class SubCategoryPage extends StatefulWidget {
 }
 
 class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderStateMixin {
-  late AssetsAudioPlayer _assetsAudioPlayer;
+
   final List<StreamSubscription> _subscriptions = [];
-  final audios = <Audio>[
-    Audio(
-      'assets/Bewafa Tera Muskurana - Jubin Nautiyal 128 Kbps.mp3',
-      metas: Metas(
-        title:  "Bewafa Tera Muskurana",
-        artist: "Jubin Nautiyal",
-        album: "CountryAlbum",
-        image: MetasImage.asset("assets/artist3.jpg"), //can be MetasImage.network
-      ),
-    ),
-    Audio(
-      'assets/Desh Mere - Bhuj The Pride Of India 128 Kbps.mp3',
-      metas: Metas(
-        title:  "Desh Mere",
-        artist: "Arjit Sinh",
-        album: "CountryAlbum",
-        image: MetasImage.asset("assets/artist4.jpeg"), //can be MetasImage.network
-      ),
-    ),
-    Audio(
-      'assets/Ishq Mein - Sachet Tandon 128 Kbps.mp3',
-      metas: Metas(
-        title:  "Ishq Mein ",
-        artist: "Sachet Tandon",
-        album: "CountryAlbum",
-        image: MetasImage.asset("assets/artist5.jpeg"), //can be MetasImage.network
-      ),
-    ),
-  ];
 
   late AnimationController _animationController;
+  bool showLiveButton = true;
 
   ///
   @override
   void initState() {
     super.initState();
+    if (assetsAudioPlayer.isPlaying.value) {
+      assetsAudioPlayer.stop();
+      assetsAudioPlayer.dispose();
+    }
     _animationController = AnimationController(vsync: this, duration: Duration(seconds: 3));
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {});
       }
     });
-    _assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
-    _subscriptions.add(_assetsAudioPlayer.playlistAudioFinished.listen((data) {
+    assetsAudioPlayer = AssetsAudioPlayer.newPlayer();
+    _subscriptions.add(assetsAudioPlayer.playlistAudioFinished.listen((data) {
       print('playlistAudioFinished : $data');
     }));
-    _subscriptions.add(_assetsAudioPlayer.audioSessionId.listen((sessionId) {
+    _subscriptions.add(assetsAudioPlayer.audioSessionId.listen((sessionId) {
       print('audioSessionId : $sessionId');
     }));
 
@@ -83,20 +79,23 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
   }
 
   void openPlayer() async {
-    await _assetsAudioPlayer.open(
-      Playlist(audios: audios, startIndex: 0),
-      showNotification: true,
-      autoStart: true,
+    assetsAudioPlayer.open(
+      Audio(widget.url),autoStart: false,    showNotification: true,
     );
+
   }
 
+
+//
   @override
   void dispose() {
     _animationController.dispose();
-    _assetsAudioPlayer.dispose();
+
     print('dispose');
     super.dispose();
   }
+
+
 
   Audio find(List<Audio> source, String fromPath) {
     return source.firstWhere((element) => element.path == fromPath);
@@ -108,7 +107,6 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
       body: Container(
         child: Column(
           children: [
-            ///ok  song double play thay che eee tu kar hve
             Container(
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
@@ -118,6 +116,25 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                   top: 55.h,
                 ),
                 child: Column(children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 10.w),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white54,
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: kindigoColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   CircleAvatar(
                     maxRadius: 35.h,
                     backgroundColor: const Color(0XFF2f6afb),
@@ -140,58 +157,118 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  _assetsAudioPlayer.builderCurrent(builder: (context, Playing? playing) {
+                  SizedBox(
+                    height: 240.h,
+                  ),
+                  assetsAudioPlayer.builderCurrent(builder: (context, Playing? playing) {
                     return Column(
                       children: <Widget>[
-                        _assetsAudioPlayer.builderLoopMode(
+                        assetsAudioPlayer.builderLoopMode(
                           builder: (context, loopMode) {
                             return PlayerBuilder.isPlaying(
-                                player: _assetsAudioPlayer,
+                                player: assetsAudioPlayer,
                                 builder: (context, isPlaying) {
                                   return Column(
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 20.w, left: 20.w),
-                                        child: Lottie.asset(
-                                          'assets/wave.json',
-                                          repeat: true,
-                                          controller: _animationController,
-                                          onLoaded: (composition) {
-                                            _animationController..repeat().whenComplete(() {});
-                                          },
-                                        ),
+                                      showLiveButton ?  const SizedBox() : Stack(
+                                        children: [
+                                        Padding(
+                                            padding: EdgeInsets.only(right: 20.w, left: 20.w),
+                                            child: Lottie.asset(
+                                              'assets/wave.json',
+                                              repeat: true,
+                                              controller: _animationController,
+                                              onLoaded: (composition) {
+                                                _animationController..repeat().whenComplete(() {});
+                                              },
+                                            ),
+                                          ),
+                                          Positioned(
+                                            child: GlassmorphicContainer(
+                                              width: 350.w,
+                                              height: 100.h,
+                                              borderRadius: 20,
+                                              blur: 5,
+                                              alignment: Alignment.bottomCenter,
+                                              border: 2,
+                                              linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
+                                                Color(0xFFffffff).withOpacity(0.0),
+                                                Color(0xFFFFFFFF).withOpacity(0.0),
+                                              ], stops: [
+                                                0.1,
+                                                1,
+                                              ]),
+                                              borderGradient: LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.bottomRight,
+                                                colors: [
+                                                  Color(0xFFffffff).withOpacity(0.0),
+                                                  Color((0xFFFFFFFF)).withOpacity(0.0),
+                                                ],
+                                              ),
+                                              child: null,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                       PlayingControls(
                                         loopMode: loopMode,
                                         isPlaying: isPlaying,
                                         isPlaylist: true,
                                         onStop: () {
-                                          _assetsAudioPlayer.stop();
-
+                                          assetsAudioPlayer.pause();
                                           _animationController.stop();
                                         },
                                         toggleLoop: () {
-                                          _assetsAudioPlayer.toggleLoop();
+                                          assetsAudioPlayer.toggleLoop();
                                           _animationController.reset();
                                         },
                                         onPlay: () {
-                                          _assetsAudioPlayer.playOrPause();
-                                          if (_assetsAudioPlayer.isPlaying.value == true) {
+                                          assetsAudioPlayer.playOrPause();
+                                          if (assetsAudioPlayer.isPlaying.value == true) {
                                             _animationController.stop();
                                           } else {
                                             _animationController.repeat();
                                           }
+                                          setState(() {
+                                            showLiveButton = false;
+                                          });
                                         },
                                         onNext: () {
-                                          //_assetsAudioPlayer.forward(Duration(seconds: 10));
-                                          _assetsAudioPlayer.next(keepLoopMode: true /*keepLoopMode: false*/);
+                                          //assetsAudioPlayer.forward(Duration(seconds: 10));
+                                          assetsAudioPlayer.next(keepLoopMode: true /*keepLoopMode: false*/);
                                           _animationController.reset();
                                         },
-                                        //double song play thay chr
                                         onPrevious: () {
-                                          _assetsAudioPlayer.previous(/*keepLoopMode: false*/);
+                                          assetsAudioPlayer.previous(/*keepLoopMode: false*/);
                                         },
                                       ),
+
+                                      SizedBox(
+                                        height: 20.h,
+                                      ),
+                                      assetsAudioPlayer.builderRealtimePlayingInfos(builder: (context, RealtimePlayingInfos? infos) {
+                                        if (infos == null) {
+                                          return SizedBox();
+                                        }return
+                                        showLiveButton ?  const SizedBox() : Padding(
+                                          padding: EdgeInsets.only(right: 20.w, left: 20.w),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Icon(Icons.shuffle, color: kWhiteColor, size: 35.sp),
+                                              PositionSeekWidget(
+                                                currentPosition: infos.currentPosition,
+                                                duration: infos.duration,
+                                                seekTo: (to) {
+                                                  assetsAudioPlayer.seek(to);
+                                                },
+                                              ),
+                                              Icon(Icons.wifi_tethering, color: kWhiteColor, size: 35.sp),
+                                            ],
+                                          ),
+                                        );
+                                      }),
                                     ],
                                   );
                                 });

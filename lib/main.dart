@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(primarySwatch: Colors.grey, fontFamily: 'montserrat'),
-          home: const HomePage(),
+          home:  HomePage(),
         );
       },
     );

@@ -15,6 +15,31 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  ScrollController controller = ScrollController(initialScrollOffset: 0.0);
+
+  @override
+  void initState() {
+    controller.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() {
+    if (controller.offset >= controller.position.maxScrollExtent && !controller.position.outOfRange) {
+    }
+    if (controller.offset <= controller.position.minScrollExtent && !controller.position.outOfRange) {
+      print('reach the end left');
+      isButtonShow.value = false;
+      print('reach the end right');
+    }
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,6 +135,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SingleChildScrollView(
+            controller: controller,
             child: Padding(
               padding: const EdgeInsets.only(top: 510),
               child: Column(
@@ -117,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: 1306.h,
                     width: 500.w,
-                    padding: EdgeInsets.only(right: 30.w, left: 30.w),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(60.r), topRight: Radius.circular(50.r)),
                       color: kWhiteColor,
@@ -128,9 +153,12 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 50.h,
                         ),
-                        Text(
-                          favouriteArtists,
-                          style: TextStyle(fontFamily: "Quicksand", fontSize: 25.sp, color: Color(0XFF23115a), fontWeight: FontWeight.w900),
+                        Padding(
+                          padding:  EdgeInsets.only(left: 20.w,right: 20.w),
+                          child: Text(
+                            favouriteArtists,
+                            style: TextStyle(fontFamily: "Quicksand", fontSize: 25.sp, color: Color(0XFF23115a), fontWeight: FontWeight.w900),
+                          ),
                         ),
                         SizedBox(
                           height: 20.h,
@@ -139,11 +167,17 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 20.h,
                         ),
-                        Text(
-                          recentlyPlayed,
-                          style: TextStyle(fontFamily: "Quicksand", fontSize: 25.sp, color: Color(0XFF23115a), fontWeight: FontWeight.w900),
+                        Padding(
+                          padding:  EdgeInsets.only(left: 20.w,right: 20.w),
+                          child: Text(
+                            recentlyPlayed,
+                            style: TextStyle(fontFamily: "Quicksand", fontSize: 25.sp, color: Color(0XFF23115a), fontWeight: FontWeight.w900),
+                          ),
                         ),
-                        Designer(),
+                        Padding(
+                          padding:  EdgeInsets.only(left: 20.w,right: 20.w),
+                          child: Designer(),
+                        ),
                       ],
                     ),
                   ),
