@@ -34,7 +34,7 @@ dependencies:
   flutter_screenutil: ^5.6.1
 
 ### ======================== music=================
-  audio_wave: ^0.1.4
+
   assets_audio_player: ^3.0.6
   flutter_audio_waveforms: ^1.2.1+8
   flutter_neumorphic: ^3.2.0

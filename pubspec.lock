@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  audio_wave:
-    dependency: "direct main"
-    description:
-      name: audio_wave
-      sha256: "9bf1ceec220cc52c80bc0ce6a3d8b9c20c69b86bce8ad83da758562bb58edde2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.5"
   boolean_selector:
     dependency: transitive
     description:
