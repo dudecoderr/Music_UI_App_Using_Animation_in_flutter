@@ -5,7 +5,7 @@ class PositionSeekWidget extends StatefulWidget {
   final Duration duration;
   final Function(Duration) seekTo;
 
-  const PositionSeekWidget({
+  const PositionSeekWidget({super.key,
     required this.currentPosition,
     required this.duration,
     required this.seekTo,

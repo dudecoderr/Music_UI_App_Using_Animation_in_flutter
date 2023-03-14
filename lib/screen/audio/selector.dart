@@ -7,15 +7,15 @@ class SongsSelector extends StatelessWidget {
   final Function(Audio) onSelected;
   final Function(List<Audio>) onPlaylistSelected;
 
-  SongsSelector(
-      {required this.playing,
+  const SongsSelector(
+      {super.key, required this.playing,
         required this.audios,
         required this.onSelected,
         required this.onPlaylistSelected});
 
   Widget _image(Audio item) {
     if (item.metas.image == null) {
-      return SizedBox(height: 40, width: 40);
+      return const SizedBox(height: 40, width: 40);
     }
 
     return item.metas.image?.type == ImageType.network
@@ -40,8 +40,8 @@ class SongsSelector extends StatelessWidget {
         depth: -8,
         boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(9)),
       ),
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.all(8),
+      margin:const EdgeInsets.all(8),
+      padding:const EdgeInsets.all(8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -51,21 +51,21 @@ class SongsSelector extends StatelessWidget {
               onPressed: () {
                 onPlaylistSelected(audios);
               },
-              child: Center(child: Text('All as playlist')),
+              child: const Center(child: Text('All as playlist')),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Flexible(
             child: ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, position) {
                 final item = audios[position];
                 final isPlaying = item.path == playing?.audio.assetAudioPath;
                 return Neumorphic(
-                  margin: EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(4),
                   style: NeumorphicStyle(
                     depth: isPlaying ? -4 : 0,
                     boxShape:
@@ -73,7 +73,7 @@ class SongsSelector extends StatelessWidget {
                   ),
                   child: ListTile(
                       leading: Material(
-                        shape: CircleBorder(),
+                        shape: const CircleBorder(),
                         clipBehavior: Clip.antiAlias,
                         child: _image(item),
                       ),

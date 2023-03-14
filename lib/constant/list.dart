@@ -48,7 +48,7 @@ class ArtistCategory extends StatelessWidget {
         /// =================== Image ===================
         title: Container(
           height: 120.h,width: 100.w,
-          decoration: BoxDecoration(),
+          decoration: const BoxDecoration(),
           child: ClipRRect(
               borderRadius: BorderRadius.circular(20.r),child: Image.asset(image_location,fit: BoxFit.cover)),
         ),

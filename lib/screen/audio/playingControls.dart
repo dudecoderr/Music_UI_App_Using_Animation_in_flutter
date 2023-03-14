@@ -17,6 +17,8 @@ class PlayingControls extends StatelessWidget {
   final Function()? onNext;
   final Function()? toggleLoop;
   final Function()? onStop;
+  final IconData? suffle;
+  final IconData? wifi;
 
   PlayingControls({
   this.isPlaying = true,
@@ -26,29 +28,30 @@ class PlayingControls extends StatelessWidget {
     this.onPrevious,
     required this.onPlay,
     this.onNext,
-    this.onStop,
+    this.onStop, this.suffle, this.wifi,
   });
-
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 30.w,right: 30.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            width: 12.w,
+          Icon(
+              suffle,
+              color: kWhiteColor,size: 30.sp
           ),
-
           InkWell(onTap: onPlay,
             child: Icon(
-                isPlaying == true
-                  ? Icons.pause
-                  : Icons.play_arrow,
-             color: kWhiteColor,size: 45.sp
-            ),
+                    isPlaying == true
+                      ? Icons.pause
+                      : Icons.play_arrow,
+                 color: kWhiteColor,size: 45.sp
+                ),
+          ),
+          Icon(
+              wifi,
+              color: kWhiteColor,size: 30.sp
           ),
       ]
       ),

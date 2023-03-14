@@ -6,12 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:lottie/lottie.dart';
 import 'package:music_app_flutter_ui/screen/bottom_sheet.dart';
-import 'package:music_app_flutter_ui/screen/home_screen.dart';
 import '../constant/color_constant.dart';
 import 'audio/parent_seek.dart';
 import 'audio/playingControls.dart';
-
-
 
 class SubCategoryPage extends StatefulWidget {
   final String? image;
@@ -21,7 +18,7 @@ class SubCategoryPage extends StatefulWidget {
   final String? url;
   final String? id;
 
-  SubCategoryPage({
+  const SubCategoryPage({
     Key? key,
     this.image,
     this.desc,
@@ -45,10 +42,10 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
   void initState() {
     super.initState();
     if (assetsAudioPlayer.isPlaying.value) {
-      assetsAudioPlayer.stop();
+
       assetsAudioPlayer.dispose();
     }
-    _animationController = AnimationController(vsync: this, duration: Duration(seconds: 3));
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 3));
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         setState(() {});
@@ -115,7 +112,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                                     widget.image,
                                    );
                                 },
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   backgroundColor: Colors.white54,
                                   child: Icon(
                                     Icons.arrow_back,
@@ -158,7 +155,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                                 builder: (context, loopMode) {
                                   return PlayerBuilder.isPlaying(
                                       player: assetsAudioPlayer,
-                                      builder: (context, isPlaying) {
+                                      builder: (context, isPlaying,) {
                                         return Column(
                                           children: [
                                             showLiveButton
@@ -185,9 +182,9 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                                                     alignment: Alignment.bottomCenter,
                                                     border: 2,
                                                     linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-                                                      Color(0xFFffffff).withOpacity(0.0),
-                                                      Color(0xFFFFFFFF).withOpacity(0.0),
-                                                    ], stops: [
+                                                      const    Color(0xFFffffff).withOpacity(0.0),
+                                                      const Color(0xFFFFFFFF).withOpacity(0.0),
+                                                    ], stops: const [
                                                       0.1,
                                                       1,
                                                     ]),
@@ -195,8 +192,8 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
                                                       begin: Alignment.topLeft,
                                                       end: Alignment.bottomRight,
                                                       colors: [
-                                                        Color(0xFFffffff).withOpacity(0.0),
-                                                        Color((0xFFFFFFFF)).withOpacity(0.0),
+                                                        const Color(0xFFffffff).withOpacity(0.0),
+                                                        const Color((0xFFFFFFFF)).withOpacity(0.0),
                                                       ],
                                                     ),
                                                     child: null,
@@ -242,7 +239,7 @@ class _SubCategoryPageState extends State<SubCategoryPage> with TickerProviderSt
 
                                             assetsAudioPlayer.builderRealtimePlayingInfos(builder: (context, RealtimePlayingInfos? infos) {
                                               if (infos == null) {
-                                                return SizedBox();
+                                                return const SizedBox();
                                               }
                                               return showLiveButton
                                                   ? const SizedBox()

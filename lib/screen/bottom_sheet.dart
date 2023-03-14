@@ -36,12 +36,9 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
         setState(() {});
       }
     });
-    _subscriptions.add(assetsAudioPlayer.playlistAudioFinished.listen((data) {
-    }));
-    _subscriptions.add(assetsAudioPlayer.audioSessionId.listen((sessionId) {
-    }));
+    _subscriptions.add(assetsAudioPlayer.playlistAudioFinished.listen((data) {}));
+    _subscriptions.add(assetsAudioPlayer.audioSessionId.listen((sessionId) {}));
   }
-
 
   @override
   void dispose() {
@@ -71,7 +68,7 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 40.h),
                   Container(
                     height: 120.h,
                     width: 120.w,
@@ -96,7 +93,7 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
                   ),
                   SizedBox(height: 10.h),
                   Text(
-                   value.audio.audio.metas.album!,
+                    value.audio.audio.metas.album!,
                     style: TextStyle(color: kWhiteColor, fontFamily: 'Quicksand', fontWeight: FontWeight.w700, fontSize: 25.sp),
                   ),
                   SizedBox(height: 10.h),
@@ -132,7 +129,7 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
                                               alignment: Alignment.bottomCenter,
                                               border: 2,
                                               linearGradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [
-                                                const  Color(0xFFffffff).withOpacity(0.0),
+                                                const Color(0xFFffffff).withOpacity(0.0),
                                                 const Color(0xFFFFFFFF).withOpacity(0.0),
                                               ], stops: const [
                                                 0.1,
@@ -152,12 +149,13 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
                                         ],
                                       ),
                                       PlayingControls(
+                                        suffle: Icons.shuffle,
+                                        wifi: Icons.wifi_tethering_rounded,
                                         loopMode: loopMode,
                                         isPlaying: isPlaying,
                                         isPlaylist: true,
                                         onStop: () {
                                           assetsAudioPlayer.stop();
-
                                           _animationController.stop();
                                         },
                                         toggleLoop: () {
@@ -180,24 +178,6 @@ class _LiveButtonBottomSheetState extends State<LiveButtonBottomSheet> with Tick
                                           assetsAudioPlayer.previous(/*keepLoopMode: false*/);
                                         },
                                       ),
-                                      SizedBox(
-                                        height: 20.h,
-                                      ),
-                                      assetsAudioPlayer.builderRealtimePlayingInfos(builder: (context, RealtimePlayingInfos? infos) {
-                                        if (infos == null) {
-                                          return const SizedBox();
-                                        }
-                                        return Padding(
-                                          padding: EdgeInsets.only(right: 20.w, left: 20.w),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Icon(Icons.shuffle, color: kWhiteColor, size: 35.sp),
-                                              Icon(Icons.wifi_tethering, color: kWhiteColor, size: 35.sp),
-                                            ],
-                                          ),
-                                        );
-                                      }),
                                     ],
                                   );
                                 });

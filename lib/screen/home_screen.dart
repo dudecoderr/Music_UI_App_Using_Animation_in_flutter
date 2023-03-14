@@ -32,7 +32,7 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
-/// desc batavanu che to rakh ?
+
 class _HomePageState extends State<HomePage> {
   ScrollController controller = ScrollController(initialScrollOffset: 0.0);
   @override

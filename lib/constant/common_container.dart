@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +19,7 @@ class Designer extends StatelessWidget {
         height: 900.h,
         width: 450,
         child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: 1,
           itemBuilder: (BuildContext context, int index) {
             return Column(

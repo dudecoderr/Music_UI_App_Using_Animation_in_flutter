@@ -6,7 +6,7 @@ class PositionSeekWidget extends StatefulWidget {
   final Duration duration;
   final Function(Duration) seekTo;
 
-  const PositionSeekWidget({
+  const PositionSeekWidget({super.key,
     required this.currentPosition,
     required this.duration,
     required this.seekTo,
@@ -46,7 +46,7 @@ class _PositionSeekWidgetState extends State<PositionSeekWidget> {
         children: <Widget>[
           SizedBox(
             width: 40,
-            child: Text(durationToString(widget.currentPosition),style: TextStyle(color:kWhiteColor)),
+            child: Text(durationToString(widget.currentPosition),style: const TextStyle(color:kWhiteColor)),
           ),
 
         ],
