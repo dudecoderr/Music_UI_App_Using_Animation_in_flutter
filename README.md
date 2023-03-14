@@ -11,7 +11,7 @@ Note: _**last updated February 2023 configured project to latest flutter version
 
 
 <p align="center">
-<img src="" width="200%">
+<img src="https://raw.githubusercontent.com/dudecoderr/Music_UI_App_Using_Animation_in_flutter/master/assets/Readme.jpg" width="200%">
 </p>
 
 **Packages used:**
