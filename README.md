@@ -1,7 +1,7 @@
 # music_app_flutter_ui
 
 
-#### Github Link : 
+#### Github Link : https://github.com/dudecoderr/Music_UI_App_Using_Animation_in_flutter.git
 
                                
 # Changelog
