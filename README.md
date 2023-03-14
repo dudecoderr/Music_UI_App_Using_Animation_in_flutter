@@ -7,7 +7,7 @@
 # Changelog
 
 
-Note: _**last updated February 2023 configured project to latest flutter version 3.7.3**_
+Note: _**last updated February 2023 configured project to latest flutter version 3.7.5**_
 
 
 <p align="center">
