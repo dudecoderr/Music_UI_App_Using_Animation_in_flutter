@@ -1,16 +1,26 @@
 # music_app_flutter_ui
 
-A new Flutter project.
 
-## Getting Started
+#### Github Link : https://github.com/dudecoderr/Music_UI_App_Using_Animation_in_flutter.git
 
-This project is a starting point for a Flutter application.
+                               
+# Changelog
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Note: _**last updated February 2023 configured project to latest flutter version 3.7.5**_
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+<p align="center">
+<img src="" width="200%">
+</p>
+
+**Packages used:**
+
+ - flutter_screenutil: ^5.6.1
+ - assets_audio_player: ^3.0.6
+ - flutter_audio_waveforms: ^1.2.1+8
+ - flutter_neumorphic: ^3.2.0
+ - glassmorphism: ^3.0.0
+ - lottie: ^1.1.0
+ - get: ^4.6.5
+ - flutter_slidable: ^2.0.0
