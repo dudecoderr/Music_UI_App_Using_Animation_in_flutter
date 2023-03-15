@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(top: 55.h, right: 30.w, left: 30.w),
+                        padding: EdgeInsets.only(top: 40.h, right: 30.w, left: 30.w),
                         child: CircleAvatar(
                           maxRadius: 30.h,
                           backgroundColor: const Color(0XFF2f6afb),
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       SizedBox(
-                        height: 20.h,
+                        height: 10.h,
                       ),
                       Padding(
                         padding: EdgeInsets.only(right: 30.w, left: 30.w),
